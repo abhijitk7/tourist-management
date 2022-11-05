@@ -1,0 +1,6 @@
+rootProject.name = 'tourist-management'
+include("tourist-management-core")
+include("tourist-management-common")
+include("tourist-management-command")
+include("tourist-management-query")
+

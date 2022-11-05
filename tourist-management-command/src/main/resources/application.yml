@@ -1,0 +1,19 @@
+server:
+  port: 5000
+
+spring:
+  application:
+    name:
+      TOURIST-MANAGEMENT-COMMAND
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: touristManagement
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
