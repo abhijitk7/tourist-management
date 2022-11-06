@@ -1,15 +1,15 @@
 package com.cts.fse.models;
 
-import lombok.Builder;
-import lombok.Data;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.io.Serializable;
 
-@Data
-@Builder
-public class Tarrifs implements Serializable {
+@Entity
+public class CompanyTarrifs {
+
+    @Id
+    private Long id;
     private String tarrifPlace;
     @Min(value = 50000)
     @Max(value = 100000)
