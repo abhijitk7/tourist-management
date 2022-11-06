@@ -12,8 +12,8 @@ spring:
       ddl-auto: update
   datasource:
     url: jdbc:postgresql://localhost:5432/tourist_management?createDatabaseIfNotExist=true
-    username: myusername
-    password: mypassword
+    username: user
+    password: password
   kafka:
     listener:
       ack-mode: MANUAL_IMMEDIATE

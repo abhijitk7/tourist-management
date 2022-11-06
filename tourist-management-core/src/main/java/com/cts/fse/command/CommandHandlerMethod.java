@@ -1,7 +1,4 @@
-package com.cts.fse.events;
-
-import com.cts.fse.command.BaseCommand;
-
+package com.cts.fse.command;
 
 @FunctionalInterface
 public interface CommandHandlerMethod<T extends BaseCommand> {
