@@ -18,9 +18,9 @@ public class CompanyEventHandler implements EventHandler {
         var company = Company.builder().place(companyAddedEvent.getPlace())
                 .email(companyAddedEvent.getEmail())
                 .branchName(companyAddedEvent.getBranchName())
-                .website(companyAddedEvent.getEmail())
+                .website(companyAddedEvent.getWebsite())
                 .contact(companyAddedEvent.getContact())
-                .tarrifs(companyAddedEvent.getTarrifs())
+                .tariffs(companyAddedEvent.getTariffs())
                 .build();
         companyRepository.save(company);
     }
@@ -32,7 +32,7 @@ public class CompanyEventHandler implements EventHandler {
                 .branchName(companyUpdatedEvent.getBranchName())
                 .website(companyUpdatedEvent.getEmail())
                 .contact(companyUpdatedEvent.getContact())
-                .tarrifs(companyUpdatedEvent.getTarrifs())
+                .tariffs(companyUpdatedEvent.getTariffs())
                 .build();
         companyRepository.save(company);
     }

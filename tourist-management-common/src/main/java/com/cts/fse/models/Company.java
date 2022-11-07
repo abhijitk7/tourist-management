@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.URL;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,8 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -23,6 +21,7 @@ import java.util.List;
 public class Company implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String branchName;
@@ -30,7 +29,6 @@ public class Company implements Serializable {
     private String place;
 
     @NotBlank
-    @URL
     private String website;
 
     @NotNull
@@ -40,7 +38,17 @@ public class Company implements Serializable {
     @Email(message = "Not a valid email")
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "company_id")
-    private List<Tarrifs> tarrifs = new ArrayList<>();
+    /*@OneToMany
+    @JoinColumn(name = "company_id", referencedColumnName = "id")
+    private Set<CompanyTarrifs> tariffs;*/
+
+    /*@OneToMany(
+            mappedBy = "company",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )*/
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id", nullable = false, updatable = true)
+    private Set<CompanyTarrifs> tariffs;
+
 }

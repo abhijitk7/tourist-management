@@ -14,14 +14,14 @@ public class CompanyEventConsumer implements EventConsumer {
     @Autowired
     private EventHandler eventHandler;
 
-    @KafkaListener(topics = "CompanyAddedEvent", groupId = "${spring.kafka.consumer.groupId}")
+    @KafkaListener(topics = "CompanyAddedEvent", groupId = "${spring.kafka.consumer.group-id}")
     @Override
     public void consume(CompanyAddedEvent event, Acknowledgment ack) {
         eventHandler.on(event);
         ack.acknowledge();
     }
 
-    @KafkaListener(topics = "CompanyUpdatedEvent", groupId = "${spring.kafka.consumer.groupId}")
+    @KafkaListener(topics = "CompanyUpdatedEvent", groupId = "${spring.kafka.consumer.group-id}")
     @Override
     public void consume(CompanyUpdatedEvent event, Acknowledgment ack) {
         eventHandler.on(event);

@@ -1,7 +1,7 @@
 package com.cts.fse.api.commands;
 
 import com.cts.fse.command.BaseCommand;
-import com.cts.fse.models.Tarrifs;
+import com.cts.fse.models.CompanyTarrifs;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class AddCompanyCommand extends BaseCommand {
@@ -19,9 +19,9 @@ public class AddCompanyCommand extends BaseCommand {
     @URL
     private String website;
     @NotNull
-    @Pattern(regexp="(^$|[0-9]{10})")
+    @Pattern(regexp = "(^$|[0-9]{10})")
     private String contact;
     @Email(message = "Not a valid email")
     private String email;
-    private List<Tarrifs> tarrifs;
+    private Set<CompanyTarrifs> tariffs;
 }

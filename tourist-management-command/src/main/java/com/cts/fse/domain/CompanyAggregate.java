@@ -4,7 +4,7 @@ import com.cts.fse.api.commands.AddCompanyCommand;
 import com.cts.fse.api.commands.UpdateCompanyCommand;
 import com.cts.fse.events.CompanyAddedEvent;
 import com.cts.fse.events.CompanyUpdatedEvent;
-import com.cts.fse.models.Tarrifs;
+import com.cts.fse.models.CompanyTarrifs;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
@@ -13,7 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +29,7 @@ public class CompanyAggregate extends AggregateRoot {
     private String contact;
     @Email(message = "Not a valid email")
     private String email;
-    private List<Tarrifs> tarrifs;
+    private Set<CompanyTarrifs> tariffs;
 
     public CompanyAggregate(AddCompanyCommand addCompanyCommand) {
         raiseEvent(
@@ -39,7 +39,7 @@ public class CompanyAggregate extends AggregateRoot {
                         .website(addCompanyCommand.getWebsite())
                         .contact(addCompanyCommand.getContact())
                         .email(addCompanyCommand.getEmail())
-                        .tarrifs(addCompanyCommand.getTarrifs()).build());
+                        .tariffs(addCompanyCommand.getTariffs()).build());
     }
 
     public void apply(CompanyAddedEvent companyAddedEvent) {
@@ -48,14 +48,14 @@ public class CompanyAggregate extends AggregateRoot {
         this.website = companyAddedEvent.getWebsite();
         this.contact = companyAddedEvent.getContact();
         this.email = companyAddedEvent.getEmail();
-        this.tarrifs = companyAddedEvent.getTarrifs();
+        this.tariffs = companyAddedEvent.getTariffs();
     }
 
     //  While updating the details, I am allowed to update only tariff details of the places. Update on personal information like branch name or email or anything else is not allowed
     public void updateCompany(UpdateCompanyCommand updateCompanyCommand) {
         raiseEvent(
                 CompanyUpdatedEvent.builder().id(updateCompanyCommand.getId())
-                        .tarrifs(updateCompanyCommand.getTarrifs())
+                        .tariffs(updateCompanyCommand.getTariffs())
                         .email(updateCompanyCommand.getEmail())
                         .branchName(updateCompanyCommand.getBranchName())
                         .build()
@@ -66,6 +66,6 @@ public class CompanyAggregate extends AggregateRoot {
         this.id = companyUpdatedEvent.getId();
         this.branchName = companyUpdatedEvent.getBranchName();
         this.email = companyUpdatedEvent.getEmail();
-        this.tarrifs = companyUpdatedEvent.getTarrifs();
+        this.tariffs = companyUpdatedEvent.getTariffs();
     }
 }
