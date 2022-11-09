@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @Builder
-public class Tarrifs implements Serializable {
+public class Tariffs implements Serializable {
     private String tarrifPlace;
     @Min(value = 50000)
     @Max(value = 100000)

@@ -1,7 +1,7 @@
 package com.cts.fse.api.commands;
 
 import com.cts.fse.command.BaseCommand;
-import com.cts.fse.models.CompanyTarrifs;
+import com.cts.fse.models.CompanyTariffs;
 import lombok.Data;
 import org.hibernate.validator.constraints.URL;
 
@@ -23,5 +23,5 @@ public class UpdateCompanyCommand extends BaseCommand {
     private String contact;
     @Email(message = "Not a valid email")
     private String email;
-    private Set<CompanyTarrifs> tariffs;
+    private Set<CompanyTariffs> tariffs;
 }

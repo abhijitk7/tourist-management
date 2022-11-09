@@ -21,8 +21,8 @@ import java.util.Set;
 public class Company implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+    @Column(name = "company_id")
+    private String id;
 
     private String branchName;
 
@@ -47,8 +47,8 @@ public class Company implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )*/
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "company_id", nullable = false, updatable = true)
-    private Set<CompanyTarrifs> tariffs;
+    private Set<CompanyTariffs> tariffs;
 
 }

@@ -1,6 +1,6 @@
 package com.cts.fse.events;
 
-import com.cts.fse.models.CompanyTarrifs;
+import com.cts.fse.models.CompanyTariffs;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +28,5 @@ public class CompanyUpdatedEvent extends BaseEvent {
     private String contact;
     @Email(message = "Not a valid email")
     private String email;
-    private Set<CompanyTarrifs> tariffs;
+    private Set<CompanyTariffs> tariffs;
 }

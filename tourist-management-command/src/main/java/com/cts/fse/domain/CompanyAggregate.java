@@ -4,7 +4,7 @@ import com.cts.fse.api.commands.AddCompanyCommand;
 import com.cts.fse.api.commands.UpdateCompanyCommand;
 import com.cts.fse.events.CompanyAddedEvent;
 import com.cts.fse.events.CompanyUpdatedEvent;
-import com.cts.fse.models.CompanyTarrifs;
+import com.cts.fse.models.CompanyTariffs;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.URL;
@@ -29,7 +29,7 @@ public class CompanyAggregate extends AggregateRoot {
     private String contact;
     @Email(message = "Not a valid email")
     private String email;
-    private Set<CompanyTarrifs> tariffs;
+    private Set<CompanyTariffs> tariffs;
 
     public CompanyAggregate(AddCompanyCommand addCompanyCommand) {
         raiseEvent(
@@ -45,6 +45,7 @@ public class CompanyAggregate extends AggregateRoot {
     public void apply(CompanyAddedEvent companyAddedEvent) {
         this.id = companyAddedEvent.getId();
         this.branchName = companyAddedEvent.getBranchName();
+        this.place = companyAddedEvent.getPlace();
         this.website = companyAddedEvent.getWebsite();
         this.contact = companyAddedEvent.getContact();
         this.email = companyAddedEvent.getEmail();
@@ -55,9 +56,12 @@ public class CompanyAggregate extends AggregateRoot {
     public void updateCompany(UpdateCompanyCommand updateCompanyCommand) {
         raiseEvent(
                 CompanyUpdatedEvent.builder().id(updateCompanyCommand.getId())
-                        .tariffs(updateCompanyCommand.getTariffs())
-                        .email(updateCompanyCommand.getEmail())
                         .branchName(updateCompanyCommand.getBranchName())
+                        .website(updateCompanyCommand.getWebsite())
+                        .place(updateCompanyCommand.getPlace())
+                        .email(updateCompanyCommand.getEmail())
+                        .contact(updateCompanyCommand.getContact())
+                        .tariffs(updateCompanyCommand.getTariffs())
                         .build()
         );
     }
@@ -65,7 +69,10 @@ public class CompanyAggregate extends AggregateRoot {
     public void apply(CompanyUpdatedEvent companyUpdatedEvent) {
         this.id = companyUpdatedEvent.getId();
         this.branchName = companyUpdatedEvent.getBranchName();
+        this.place = companyUpdatedEvent.getPlace();
+        this.website = companyUpdatedEvent.getWebsite();
         this.email = companyUpdatedEvent.getEmail();
+        this.contact = companyUpdatedEvent.getContact();
         this.tariffs = companyUpdatedEvent.getTariffs();
     }
 }

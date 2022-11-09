@@ -20,9 +20,7 @@ public class CompanyCommandHandler implements CommandHandler {
     @Override
     public void handle(UpdateCompanyCommand updateCompanyCommand) {
         var aggregate = eventSourcingHandler.getById(updateCompanyCommand.getId());
-        aggregate.setTariffs(updateCompanyCommand.getTariffs());
-        aggregate.setEmail(updateCompanyCommand.getEmail());
-        aggregate.setBranchName(updateCompanyCommand.getBranchName());
+        aggregate.updateCompany(updateCompanyCommand);
         eventSourcingHandler.save(aggregate);
     }
 }
