@@ -1,4 +1,6 @@
 rootProject.name = 'tourist-management'
+include("discovery-service")
+include("api-gateway")
 include("tourist-management-core")
 include("tourist-management-common")
 include("tourist-management-command")

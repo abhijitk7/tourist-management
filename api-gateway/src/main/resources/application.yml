@@ -1,0 +1,40 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes[0]:
+        id: tourist-company
+        uri: lb://tourist-management-query
+        predicates[0]: Path=/tourism/api/v1/company
+        predicates[1]: Method=GET
+        filters[0]: RemoveRequestHeader=Cookie
+      routes[1]:
+        id: tourist-company
+        uri: lb://tourist-management-command
+        predicates[0]: Path=/tourism/api/v1/branch/add-places
+        predicates[1]: Method=POST
+        filters[0]: RemoveRequestHeader=Cookie
+      routes[2]:
+        id: tourist-company
+        uri: lb://tourist-management-command
+        predicates[0]: Path=/tourism/api/v1/update-tariff/**
+        predicates[1]: Method=PUT
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: RewritePath=/tourism/api/v1/update-tariff/(?<RID>.*), /tourism/api/v1/update-tariff/$\{RID}
+      routes[3]:
+        id: tourist-company
+        uri: lb://tourist-management-query
+        predicates[0]: Path=/tourism/api/v1/**
+        predicates[1]: Method=GET
+        filters[0]: RemoveRequestHeader=Cookie}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8010/eureka

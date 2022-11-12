@@ -18,7 +18,7 @@ public class CompanyTariffs {
     private String tariffPlace;
 
     @Min(value = 50000)
-    @Max(value = 100000)
+    @Max(value = 200000)
     private Long cost;
 
     @Column(name = "company_id", insertable = false, updatable = false)

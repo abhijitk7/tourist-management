@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FindCompanyByNameQuery extends BaseQuery {
-    private String companyName;
+public class FindCompanyByPlacesQuery extends BaseQuery {
+    private String touristPlace;
 }

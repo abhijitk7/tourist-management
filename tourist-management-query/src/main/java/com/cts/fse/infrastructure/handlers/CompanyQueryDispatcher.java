@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AccountQueryDispatcher implements QueryDispatcher {
+public class CompanyQueryDispatcher implements QueryDispatcher {
 
     private final Map<Class<? extends BaseQuery>, List<QueryHandlerMethod>> routes = new HashMap<>();
 

@@ -28,20 +28,8 @@ public class CompanyEventHandler implements EventHandler {
 
     @Override
     public void on(CompanyUpdatedEvent companyUpdatedEvent) {
-       /* var company = Company.builder().place(companyUpdatedEvent.getPlace())
-                .id(companyUpdatedEvent.getId())
-                .email(companyUpdatedEvent.getEmail())
-                .branchName(companyUpdatedEvent.getBranchName())
-                .website(companyUpdatedEvent.getEmail())
-                .contact(companyUpdatedEvent.getContact())
-                .tariffs(companyUpdatedEvent.getTariffs())
-                .build();*/
         var companyDetails = companyRepository.findById(companyUpdatedEvent.getId());
         if (companyDetails.isPresent()) {
-            /*Map<String, Long> updatedTariffs = new HashMap<>();
-            companyUpdatedEvent.getTariffs().stream().forEach((tariff -> updatedTariffs.put(tariff.getTariffPlace(), tariff.getCost())));
-
-            companyDetails.get().getTariffs().stream().forEach(tariff -> tariff.setCost(updatedTariffs.get(tariff.getTariffPlace())));*/
             companyDetails.get().getTariffs().clear();
             companyDetails.get().setTariffs(companyUpdatedEvent.getTariffs());
         }

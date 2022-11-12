@@ -1,5 +1,6 @@
 package com.cts.fse.models;
 
+import com.cts.fse.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Company implements Serializable {
+public class Company extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "company_id")
@@ -32,7 +32,6 @@ public class Company implements Serializable {
     private String website;
 
     @NotNull
-    @Pattern(regexp = "(^$|[0-9]{10})")
     private String contact;
 
     @Email(message = "Not a valid email")
