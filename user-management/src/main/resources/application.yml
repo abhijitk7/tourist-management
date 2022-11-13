@@ -11,7 +11,7 @@ eureka:
 spring:
   application:
     name:
-      TOURIST-MANAGEMENT-QUERY
+      user-management
   sql.init.mode: always
   jpa:
     defer-datasource-initialization: true
@@ -23,22 +23,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/tourist_management?createDatabaseIfNotExist=true
     username: user
     password: password
-  kafka:
-    listener:
-      ack-mode: MANUAL_IMMEDIATE
-    consumer:
-      bootstrap-servers: localhost:9092
-      group-id: touristManagementConsumer
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      properties:
-        spring:
-          json:
-            trusted:
-              packages: '*'
 
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type: TRACE
+token:
+  expiration_time: 43200000
+  secret: topsecret

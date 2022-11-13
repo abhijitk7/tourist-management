@@ -12,4 +12,6 @@ public interface QueryHandler {
     List<BaseEntity> handle(FindCompanyByNameQuery query);
 
     List<BaseEntity> handle(FindCompanyByPlacesQuery query);
+
+    List<BaseEntity> handle(FindAllTouristPlacesQuery query);
 }

@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class TouristCompanyController {
 
 
     @PostMapping("/branch/add-places")
-    public ResponseEntity<BaseResponse> addCompany(@RequestBody AddCompanyCommand addCompanyCommand) {
+    public ResponseEntity<BaseResponse> addCompany(@Valid @RequestBody AddCompanyCommand addCompanyCommand) {
         var id = UUID.randomUUID().toString();
         addCompanyCommand.setId(id);
         try {
@@ -40,7 +41,7 @@ public class TouristCompanyController {
     }
 
     @PutMapping("/update-tariff/{companyId}")
-    public ResponseEntity<BaseResponse> updateCompany(@PathVariable String companyId, @RequestBody UpdateCompanyCommand updateCompanyCommand) {
+    public ResponseEntity<BaseResponse> updateCompany(@PathVariable String companyId, @Valid @RequestBody UpdateCompanyCommand updateCompanyCommand) {
         try {
             updateCompanyCommand.setId(companyId);
             commandDispatcher.send(updateCompanyCommand);

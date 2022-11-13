@@ -14,27 +14,58 @@ spring:
         uri: lb://tourist-management-query
         predicates[0]: Path=/tourism/api/v1/company
         predicates[1]: Method=GET
+        predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: AuthorizationHeaderFilter
       routes[1]:
         id: tourist-company
         uri: lb://tourist-management-command
         predicates[0]: Path=/tourism/api/v1/branch/add-places
         predicates[1]: Method=POST
+        predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: AuthorizationHeaderFilter
       routes[2]:
         id: tourist-company
         uri: lb://tourist-management-command
         predicates[0]: Path=/tourism/api/v1/update-tariff/**
         predicates[1]: Method=PUT
+        predicates[2]: Header=Authorization, Bearer (.*)
         filters[0]: RemoveRequestHeader=Cookie
         filters[1]: RewritePath=/tourism/api/v1/update-tariff/(?<RID>.*), /tourism/api/v1/update-tariff/$\{RID}
+        filters[2]: AuthorizationHeaderFilter
       routes[3]:
         id: tourist-company
         uri: lb://tourist-management-query
         predicates[0]: Path=/tourism/api/v1/**
         predicates[1]: Method=GET
-        filters[0]: RemoveRequestHeader=Cookie}
+        predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: AuthorizationHeaderFilter
+      routes[4]:
+        id: tourist-company
+        uri: lb://tourist-management-query
+        predicates[0]: Path=tourism/api/v1/places
+        predicates[1]: Method=GET
+        predicates[2]: Header=Authorization, Bearer (.*)
+        filters[0]: RemoveRequestHeader=Cookie
+        filters[1]: AuthorizationHeaderFilter
+      routes[5]:
+        id: user-management
+        uri: lb://user-management
+        predicates[0]: Path=/tourism/user
+        predicates[1]: Method=POST
+        filters[0]: RemoveRequestHeader=Cookie
+      routes[6]:
+        id: user-management
+        uri: lb://user-management
+        predicates[0]: Path=/tourism/user/login
+        predicates[1]: Method=POST
+        filters[0]: RemoveRequestHeader=Cookie
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8010/eureka
+
+token:
+  secret: topsecret

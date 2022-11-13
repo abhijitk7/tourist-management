@@ -15,10 +15,12 @@ public class CompanyTariffs {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String tariffPlace;
+    @OneToOne
+    @JoinColumn(name = "tourist_place_id", referencedColumnName = "id")
+    private TouristPlaces place;
 
     @Min(value = 50000)
-    @Max(value = 200000)
+    @Max(value = 100000)
     private Long cost;
 
     @Column(name = "company_id", insertable = false, updatable = false)

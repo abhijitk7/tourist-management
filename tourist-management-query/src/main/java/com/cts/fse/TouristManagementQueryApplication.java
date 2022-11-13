@@ -29,6 +29,7 @@ public class TouristManagementQueryApplication {
         queryDispatcher.registerHandler(FindCompanyByIdQuery.class, queryHandler::handle);
         queryDispatcher.registerHandler(FindCompanyByNameQuery.class, queryHandler::handle);
         queryDispatcher.registerHandler(FindCompanyByPlacesQuery.class, queryHandler::handle);
+        queryDispatcher.registerHandler(FindAllTouristPlacesQuery.class, queryHandler::handle);
     }
 
 }

@@ -35,17 +35,9 @@ public class Company extends BaseEntity implements Serializable {
     private String contact;
 
     @Email(message = "Not a valid email")
+    @Column(nullable = false, length = 120, unique = true)
     private String email;
 
-    /*@OneToMany
-    @JoinColumn(name = "company_id", referencedColumnName = "id")
-    private Set<CompanyTarrifs> tariffs;*/
-
-    /*@OneToMany(
-            mappedBy = "company",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )*/
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "company_id", nullable = false, updatable = true)
     private Set<CompanyTariffs> tariffs;

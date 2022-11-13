@@ -3,7 +3,9 @@ package com.cts.fse.api.handlers;
 import com.cts.fse.api.queries.*;
 import com.cts.fse.domain.BaseEntity;
 import com.cts.fse.domain.CompanyRepository;
+import com.cts.fse.domain.TouristPlacesRepository;
 import com.cts.fse.models.Company;
+import com.cts.fse.models.TouristPlaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class CompanyQueryHandler implements QueryHandler {
 
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private TouristPlacesRepository touristPlacesRepository;
 
     @Override
     public List<BaseEntity> handle(FindAllCompaniesQuery query) {
@@ -55,5 +60,16 @@ public class CompanyQueryHandler implements QueryHandler {
         List<BaseEntity> requiredCompanies = new ArrayList<>();
         companyList.forEach(requiredCompanies::add);
         return requiredCompanies;
+    }
+
+    @Override
+    public List<BaseEntity> handle(FindAllTouristPlacesQuery query) {
+        List<TouristPlaces> placesList = this.touristPlacesRepository.findAll();
+        if (placesList.isEmpty()) {
+            return null;
+        }
+        List<BaseEntity> requiredPlaces = new ArrayList<>();
+        placesList.forEach(requiredPlaces::add);
+        return requiredPlaces;
     }
 }

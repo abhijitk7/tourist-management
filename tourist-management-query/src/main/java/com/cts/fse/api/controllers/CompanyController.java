@@ -1,12 +1,11 @@
 package com.cts.fse.api.controllers;
 
 import com.cts.fse.api.dto.CompanyLookUpResponse;
-import com.cts.fse.api.queries.FindAllCompaniesQuery;
-import com.cts.fse.api.queries.FindCompanyByIdQuery;
-import com.cts.fse.api.queries.FindCompanyByNameQuery;
-import com.cts.fse.api.queries.FindCompanyByPlacesQuery;
+import com.cts.fse.api.dto.PlacesLookUpResponse;
+import com.cts.fse.api.queries.*;
 import com.cts.fse.infrastructure.QueryDispatcher;
 import com.cts.fse.models.Company;
+import com.cts.fse.models.TouristPlaces;
 import com.cts.fse.queries.BaseQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +27,23 @@ public class CompanyController {
 
     @Autowired
     private QueryDispatcher queryDispatcher;
+
+    @GetMapping(path = "/places")
+    public ResponseEntity<PlacesLookUpResponse> getAllTouristPlaces() {
+        try {
+            List<TouristPlaces> placesList = queryDispatcher.send(new FindAllTouristPlacesQuery());
+            if (placesList == null || placesList.size() == 0) {
+                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            }
+            var response = PlacesLookUpResponse.builder().touristPlaces(placesList).message("Successfully returned list of companies").
+                    build();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+
+        } catch (Exception e) {
+            log.error("Error while retrieving list of companies" + e);
+            return new ResponseEntity<>(new PlacesLookUpResponse("Error occurred while retrieving list of companies"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping(path = "/company")
     public ResponseEntity<CompanyLookUpResponse> getAllCompanies() {
