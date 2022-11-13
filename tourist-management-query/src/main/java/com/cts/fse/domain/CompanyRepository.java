@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<Company, String> {
     Optional<Company> findByBranchName(String branchName);
 
-    @Query("Select c from Company c where id in (Select distinct companyId from CompanyTariffs where tariffPlace=:place)")
+    @Query("Select c from Company c where id in (Select distinct companyId from CompanyTariffs where place.placeName=:place)")
     List<Company> findAllCompaniesByPlace(@Param("place") String place);
 }

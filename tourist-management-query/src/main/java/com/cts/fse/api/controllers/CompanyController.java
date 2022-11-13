@@ -115,21 +115,4 @@ public class CompanyController {
         }
     }
 
-   /* @GetMapping(path = "/company/{companyName}")
-    public ResponseEntity<CompanyLookUpResponse> geCompanyByName(@PathVariable String companyName) {
-        try {
-            List<Company> companies = queryDispatcher.send(new FindCompanyByNameQuery(companyName));
-            if (companies == null || companies.size() == 0) {
-                return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
-            }
-            var response = CompanyLookUpResponse.builder().
-                    companies(companies).message("Successfully returned list of companies").
-                    build();
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
-        } catch (Exception e) {
-            log.error("Error while retriving list of companies" + e);
-            return new ResponseEntity<>(new CompanyLookUpResponse("Error occured while retriving list of companies"), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }*/
 }
