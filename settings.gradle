@@ -6,5 +6,6 @@ include("tourist-management-common")
 include("tourist-management-command")
 include("tourist-management-query")
 include("user-management")
+include("tourist-config-server")
 
 

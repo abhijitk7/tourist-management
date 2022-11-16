@@ -42,3 +42,9 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,beans,routes,httptrace

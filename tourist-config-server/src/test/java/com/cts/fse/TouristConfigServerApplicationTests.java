@@ -3,7 +3,8 @@ package com.cts.fse;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class UserManagementApplicationTests {
+class TouristConfigServerApplicationTests {
+
 
 	/*@Test
 	void contextLoads() {

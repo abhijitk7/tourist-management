@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Table(name = "company_user")
+@EntityListeners(AuditingEntityListener.class)
 public class UserModel implements Serializable {
 
     @Id
@@ -39,6 +42,7 @@ public class UserModel implements Serializable {
     @Column(nullable = false)
     private String roles;
 
+    @CreatedDate
     private Date lastUpdated;
 
     public Date getLastUpdated() {

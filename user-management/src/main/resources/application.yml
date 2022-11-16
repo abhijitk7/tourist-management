@@ -12,6 +12,8 @@ spring:
   application:
     name:
       user-management
+  config:
+    import: configserver:http://localhost:9011
   sql.init.mode: always
   jpa:
     defer-datasource-initialization: true
@@ -24,6 +26,3 @@ spring:
     username: user
     password: password
 
-token:
-  expiration_time: 43200000
-  secret: topsecret

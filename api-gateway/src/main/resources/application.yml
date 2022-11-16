@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: API-GATEWAY
+  config:
+    import: configserver:http://localhost:9011
   cloud:
     gateway:
       discovery:
@@ -62,10 +64,23 @@ spring:
         predicates[0]: Path=/tourism/user/login
         predicates[1]: Method=POST
         filters[0]: RemoveRequestHeader=Cookie
+      routes[7]:
+        id: config-server
+        uri: lb://tourist-config-server
+        predicates[0]: Path=/tourist-config-server/git
+        predicates[1]: Method=GET
+        filters[0]: RemoveRequestHeader=Cookie
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8010/eureka
 
-token:
-  secret: topsecret
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,beans,routes,httptrace
+
+springdoc:
+  api-docs:
+    path: /tourist-management-docs
