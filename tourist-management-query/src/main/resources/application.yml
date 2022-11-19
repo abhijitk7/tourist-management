@@ -42,6 +42,8 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type: TRACE
+  file:
+    name: tourist-query.log
 
 management:
   endpoints:

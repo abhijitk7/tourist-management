@@ -34,4 +34,8 @@ management:
       exposure:
         include: health,info,beans,routes,httptrace
 
+logging:
+  file:
+    name: tourist-command.log
+
 

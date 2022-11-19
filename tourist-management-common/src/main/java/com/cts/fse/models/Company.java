@@ -5,12 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -18,6 +21,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Company extends BaseEntity implements Serializable {
 
     @Id
@@ -33,6 +37,9 @@ public class Company extends BaseEntity implements Serializable {
 
     @NotNull
     private String contact;
+
+    @CreatedDate
+    private Date lastUpdated;
 
     @Email(message = "Not a valid email")
     @Column(nullable = false, length = 120, unique = true)

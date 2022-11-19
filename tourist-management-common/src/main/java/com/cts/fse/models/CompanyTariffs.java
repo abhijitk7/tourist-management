@@ -1,13 +1,17 @@
 package com.cts.fse.models;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.Date;
 
 @Entity
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class CompanyTariffs {
 
     @Id
@@ -20,10 +24,13 @@ public class CompanyTariffs {
     private TouristPlaces place;
 
     @Min(value = 50000)
-    @Max(value = 100000)
+    @Max(value = 1500000)
     private Long cost;
 
     @Column(name = "company_id", insertable = false, updatable = false)
     private String companyId;
+
+    @CreatedDate
+    private Date lastUpdated;
 
 }

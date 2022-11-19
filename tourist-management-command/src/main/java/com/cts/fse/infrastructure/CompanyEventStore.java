@@ -7,6 +7,7 @@ import com.cts.fse.events.EventModel;
 import com.cts.fse.exceptions.AggregateNotFoundException;
 import com.cts.fse.exceptions.ConurrencyException;
 import com.cts.fse.producers.EventProducer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CompanyEventStore implements EventStore {
 
     @Autowired
@@ -27,6 +29,7 @@ public class CompanyEventStore implements EventStore {
     public void saveEvent(String aggregateId, Iterable<BaseEvent> events, int expectedVersion, String aggregateType) {
         var eventStream = this.eventStoreRepository.findByAggregateIdentifier(aggregateId);
         if (expectedVersion != -1 && eventStream.get(eventStream.size() - 1).getVersion() != expectedVersion) {
+            log.error("Error occurred while saving event data because of concurrent update or insert");
             throw new ConurrencyException();
         }
         var version = expectedVersion;
@@ -52,6 +55,7 @@ public class CompanyEventStore implements EventStore {
     public List<BaseEvent> getEvents(String aggregateId) {
         var eventStream = this.eventStoreRepository.findByAggregateIdentifier(aggregateId);
         if (eventStream == null || eventStream.isEmpty()) {
+            log.error("Incorrect company id provided");
             throw new AggregateNotFoundException("Incorrect company id provided");
         }
         return eventStream.stream().map(data -> data.getEventData()).collect(Collectors.toList());

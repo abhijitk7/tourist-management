@@ -33,6 +33,7 @@ public class CompanyController {
         try {
             List<TouristPlaces> placesList = queryDispatcher.send(new FindAllTouristPlacesQuery());
             if (placesList == null || placesList.size() == 0) {
+                log.warn("No tourist places available");
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             }
             var response = PlacesLookUpResponse.builder().touristPlaces(placesList).message("Successfully returned list of companies").
@@ -50,6 +51,7 @@ public class CompanyController {
         try {
             List<Company> companies = queryDispatcher.send(new FindAllCompaniesQuery());
             if (companies == null || companies.size() == 0) {
+                log.warn("No tourist company registered...");
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             }
             var response = CompanyLookUpResponse.builder().
@@ -73,14 +75,18 @@ public class CompanyController {
             if (queryDispatchMap.containsKey(criteria)) {
                 List<Company> companies = null;
                 if ("id".equalsIgnoreCase(criteria)) {
+                    log.info("Search criteria provided is id");
                     companies = queryDispatcher.send(new FindCompanyByIdQuery(criteriaValue));
                 } else if ("companyName".equalsIgnoreCase(criteria)) {
+                    log.info("Search criteria provided is company name");
                     companies = queryDispatcher.send(new FindCompanyByNameQuery(criteriaValue));
                 } else if ("touristPlace".equalsIgnoreCase(criteria)) {
+                    log.info("Search criteria provided is tourist place");
                     companies = queryDispatcher.send(new FindCompanyByPlacesQuery(criteriaValue));
                 }
 
                 if (companies == null || companies.size() == 0) {
+                    log.warn("No data available for search criteria " + criteria + " and search value " + criteriaValue);
                     return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
                 }
                 var response = CompanyLookUpResponse.builder().
