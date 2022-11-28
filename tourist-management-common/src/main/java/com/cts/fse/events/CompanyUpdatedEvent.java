@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -28,5 +29,5 @@ public class CompanyUpdatedEvent extends BaseEvent {
     private String contact;
     @Email(message = "Not a valid email")
     private String email;
-    private Set<CompanyTariffs> tariffs;
+    private List<CompanyTariffs> tariffs;
 }

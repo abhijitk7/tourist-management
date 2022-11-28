@@ -19,9 +19,7 @@ spring:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   data:
     mongodb:
-      host: localhost
-      port: 27017
-      database: touristManagement
+      uri: mongodb://root:rootpassword@localhost:27017/touristManagement?authSource=admin&authMechanism=SCRAM-SHA-1
   kafka:
     producer:
       bootstrap-servers: localhost:9092

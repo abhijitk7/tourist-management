@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -47,6 +48,6 @@ public class Company extends BaseEntity implements Serializable {
 
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "company_id", nullable = false, updatable = true)
-    private Set<CompanyTariffs> tariffs;
+    private List<CompanyTariffs> tariffs;
 
 }
