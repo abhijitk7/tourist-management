@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -20,7 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
+import java.util.*;
 
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -55,9 +56,14 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String userName = ((User) authResult.getPrincipal()).getUsername();
 
         UserDetails userDto = userService.loadUserByUsername(userName);
+        Collection<? extends GrantedAuthority> roles=userDto.getAuthorities();
+
+        Map<String,Object> claims=new HashMap<>();
+        claims.put("role",roles);
+        claims.put("email",userDto.getUsername());
 
         // generate token
-        String token = Jwts.builder().setSubject(userDto.getUsername())
+        String token = Jwts.builder().setClaims(claims).setSubject(userDto.getUsername())
                 .setExpiration(
                         new Date(System.currentTimeMillis() + Long.parseLong(environment.getProperty("token.expiration_time"))))
                 .signWith(SignatureAlgorithm.HS512, environment.getProperty("token.secret")).compact();

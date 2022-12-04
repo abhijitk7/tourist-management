@@ -1,5 +1,6 @@
 package com.cts.fse.filters;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -52,19 +53,21 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory {
     private boolean isJwtValid(String jwtCode) {
         boolean returnValue = true;
 
-        String subject = null;
+        Claims claims = null;
+        String subject=null;
 
         try {
-            subject = Jwts.parser()
+            claims = Jwts.parser()
                     .setSigningKey(environment.getProperty("token.secret"))
                     .parseClaimsJws(jwtCode)
-                    .getBody()
-                    .getSubject();
+                    .getBody();
 
         } catch (Exception e) {
             returnValue = false;
         }
 
+        assert claims != null;
+        subject=claims.getSubject();
 
         if (subject == null || subject.isEmpty()) {
             returnValue = false;

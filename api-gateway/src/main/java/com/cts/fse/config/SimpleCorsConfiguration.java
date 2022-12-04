@@ -18,6 +18,7 @@ public class SimpleCorsConfiguration {
         corsConfig.setMaxAge(8000L);
         corsConfig.setAllowedMethods(Arrays.asList("OPTIONS", "GET", "POST", "DELETE", "PUT", "PATCH"));
         corsConfig.addAllowedHeader("*");
+        corsConfig.setExposedHeaders(Arrays.asList("token","userId"));
 
         var source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
