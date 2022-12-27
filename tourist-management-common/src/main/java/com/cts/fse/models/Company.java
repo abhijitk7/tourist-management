@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -40,6 +39,7 @@ public class Company extends BaseEntity implements Serializable {
     private String contact;
 
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     private Date lastUpdated;
 
     @Email(message = "Not a valid email")
@@ -49,5 +49,13 @@ public class Company extends BaseEntity implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "company_id", nullable = false, updatable = true)
     private List<CompanyTariffs> tariffs;
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = new Date();
+    }
 
 }

@@ -21,7 +21,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -56,11 +59,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         String userName = ((User) authResult.getPrincipal()).getUsername();
 
         UserDetails userDto = userService.loadUserByUsername(userName);
-        Collection<? extends GrantedAuthority> roles=userDto.getAuthorities();
+        Collection<? extends GrantedAuthority> roles = userDto.getAuthorities();
 
-        Map<String,Object> claims=new HashMap<>();
-        claims.put("role",roles);
-        claims.put("email",userDto.getUsername());
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("role", roles);
+        claims.put("email", userDto.getUsername());
+        claims.put("companyId", userService.getUserCompany(userDto.getUsername()));
 
         // generate token
         String token = Jwts.builder().setClaims(claims).setSubject(userDto.getUsername())

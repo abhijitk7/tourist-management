@@ -24,9 +24,6 @@ spring:
         uri: lb://tourist-management-command
         predicates[0]: Path=/tourism/api/v1/branch/add-places
         predicates[1]: Method=POST
-        predicates[2]: Header=Authorization, Bearer (.*)
-        filters[0]: RemoveRequestHeader=Cookie
-        filters[1]: AuthorizationHeaderFilter
       routes[2]:
         id: tourist-company
         uri: lb://tourist-management-command

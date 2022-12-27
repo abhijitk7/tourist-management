@@ -14,7 +14,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -32,6 +31,13 @@ public class CompanyAggregate extends AggregateRoot {
     private String email;
     private List<CompanyTariffs> tariffs;
 
+    private String firstName;
+    private String lastName;
+    private String password;
+    private String encryptedPassword;
+    private String roles;
+
+
     public CompanyAggregate(AddCompanyCommand addCompanyCommand) {
         raiseEvent(
                 CompanyAddedEvent.builder().id(addCompanyCommand.getId())
@@ -40,7 +46,12 @@ public class CompanyAggregate extends AggregateRoot {
                         .website(addCompanyCommand.getWebsite())
                         .contact(addCompanyCommand.getContact())
                         .email(addCompanyCommand.getEmail())
-                        .tariffs(addCompanyCommand.getTariffs()).build());
+                        .tariffs(addCompanyCommand.getTariffs())
+                        .firstName(addCompanyCommand.getFirstName())
+                        .lastName(addCompanyCommand.getLastName())
+                        .password(addCompanyCommand.getPassword())
+                        .roles("USER")
+                        .build());
     }
 
     public void apply(CompanyAddedEvent companyAddedEvent) {
@@ -51,6 +62,11 @@ public class CompanyAggregate extends AggregateRoot {
         this.contact = companyAddedEvent.getContact();
         this.email = companyAddedEvent.getEmail();
         this.tariffs = companyAddedEvent.getTariffs();
+        this.firstName = companyAddedEvent.getFirstName();
+        this.lastName = companyAddedEvent.getLastName();
+        this.password = companyAddedEvent.getPassword();
+        this.roles = companyAddedEvent.getRoles();
+
     }
 
     //  While updating the details, I am allowed to update only tariff details of the places. Update on personal information like branch name or email or anything else is not allowed

@@ -42,7 +42,11 @@ public class UserModel implements Serializable {
     @Column(nullable = false)
     private String roles;
 
+    @Column(nullable = false)
+    private String companyId;
+
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     private Date lastUpdated;
 
     public Date getLastUpdated() {
@@ -52,4 +56,6 @@ public class UserModel implements Serializable {
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = new Date();
     }
+
+
 }

@@ -6,7 +6,6 @@ import com.cts.fse.repository.UserRepository;
 import com.cts.fse.util.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,9 +30,13 @@ public class UserService implements UserDetailsService {
         return this.userRepository.save(user);
     }
 
+    public String getUserCompany(String email) {
+        return this.userRepository.findUsersCompany(email);
+    }
+
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public User loadUserByUsername(String email) throws UsernameNotFoundException {
         UserModel user = userRepository.findByEmail(email);
 
         if (user == null) throw new UsernameNotFoundException(email);

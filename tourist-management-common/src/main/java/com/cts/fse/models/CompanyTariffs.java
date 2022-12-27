@@ -33,4 +33,12 @@ public class CompanyTariffs {
     @CreatedDate
     private Date lastUpdated;
 
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = new Date();
+    }
+
 }
