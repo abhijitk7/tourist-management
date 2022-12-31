@@ -4,7 +4,7 @@ spring:
   application:
     name: API-GATEWAY
   config:
-    import: configserver:http://localhost:9011
+    import: configserver:http://${CONFIG_SERVER:localhost}:9011
   cloud:
     gateway:
       discovery:
@@ -70,7 +70,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8010/eureka
+      defaultZone: http://${EUREKA_SERVICE:localhost}:8010/eureka
 
 management:
   endpoints:

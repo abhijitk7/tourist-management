@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8010/eureka
+      defaultZone: http://${EUREKA_SERVICE:localhost}:8010/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
 
@@ -13,7 +13,7 @@ spring:
     name:
       user-management
   config:
-    import: configserver:http://localhost:9011
+    import: configserver:http://${CONFIG_SERVER_HOST:localhost}:9011
   sql.init.mode: always
   jpa:
     defer-datasource-initialization: true
@@ -22,7 +22,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/tourist_management?createDatabaseIfNotExist=true
+    url: jdbc:postgresql://${PG_DB:localhost}:5432/tourist_management?createDatabaseIfNotExist=true
     username: user
     password: password
 

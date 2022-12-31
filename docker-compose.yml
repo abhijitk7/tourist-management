@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.9"
 
 services:
   zookeeper:
@@ -10,6 +10,9 @@ services:
       - "zookeeper_data:/bitnami"
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - tourist-management-network
+
   kafka:
     image: bitnami/kafka
     ports:
@@ -24,6 +27,8 @@ services:
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
     depends_on:
       - zookeeper
+    networks:
+      - tourist-management-network
 
   postgres:
     container_name: postgres_container
@@ -37,7 +42,7 @@ services:
     ports:
       - 5432:5432
     networks:
-      - postgres
+      - tourist-management-network
     restart: unless-stopped
   
   pgadmin:
@@ -52,10 +57,10 @@ services:
     ports:
       - "15432:80"
     networks:
-      - postgres
+      - tourist-management-network
     restart: unless-stopped
 
-  mongodb_container:
+  mongodb-container:
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -64,6 +69,126 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
+    networks:
+      - tourist-management-network
+
+  discovery-service:
+    image: abhijitk7/tourist-management:discovery-service
+    ports:
+      - 8010:8010
+    restart: always
+    volumes:
+      - discovery_service_data:/data/db
+    networks:
+      - tourist-management-network
+    depends_on:
+      - postgres
+      - mongodb-container
+      - zookeeper
+      - kafka
+
+  config-server:
+    image: abhijitk7/tourist-management:config-server
+    ports:
+      - 9011:9011
+    environment:
+      JAVA_OPTS: >
+        -DEUREKA_SERVICE=discovery-service
+    volumes:
+      - config_server_data:/data/db
+    restart: always
+    depends_on:
+      - discovery-service
+      - postgres
+      - mongodb-container
+      - zookeeper
+      - kafka
+    networks:
+      - tourist-management-network
+
+  api-gateway:
+    image: abhijitk7/tourist-management:api-gateway
+    ports:
+      - 8082:8082
+    environment:
+      JAVA_OPTS: >
+        -DEUREKA_SERVICE=discovery-service
+        -DCONFIG_SERVER=config-server
+    volumes:
+      - api_gateway_data:/data/db
+    restart: always
+    depends_on:
+      - discovery-service
+      - config-server
+      - postgres
+    networks:
+      - tourist-management-network
+
+  command-service:
+    image: abhijitk7/tourist-management:command-service
+    ports:
+      - 8083:8083
+    environment:
+      JAVA_OPTS: >
+        -DPORT=8083
+        -DEUREKA_SERVICE=discovery-service
+        -DKAFKA_SERVER=kafka
+        -DMONGODB_HOST=mongodb-container
+    volumes:
+      - command_service_data:/data/db
+    restart: always
+    depends_on:
+      - discovery-service
+      - config-server
+      - postgres
+      - api-gateway
+      - mongodb-container
+      - zookeeper
+      - kafka
+    networks:
+      - tourist-management-network
+
+  query-service:
+    image: abhijitk7/tourist-management:query-service
+    ports:
+      - 8084:8084
+    environment:
+      JAVA_OPTS: >
+        -DEUREKA_SERVICE=discovery-service
+        -DPORT=8084
+        -DKAFKA_SERVER=kafka
+        -DPG_HOST=postgres
+    volumes:
+      - query_service_data:/data/db
+    restart: always
+    depends_on:
+      - discovery-service
+      - config-server
+      - postgres
+      - zookeeper
+      - kafka
+    networks:
+      - tourist-management-network
+
+  user-service:
+    image: abhijitk7/tourist-management:user-service
+    ports:
+      - 8085:8085
+    environment:
+      JAVA_OPTS: >
+       -DPORT=8085
+       -DEUREKA_SERVICE=discovery-service
+       -DPG_DB=postgres
+       -DCONFIG_SERVER_HOST=config-server
+    volumes:
+      - user_service_data:/data/db
+    restart: always
+    depends_on:
+      - discovery-service
+      - config-server
+      - postgres
+    networks:
+      - tourist-management-network
 
 volumes:
   zookeeper_data:
@@ -73,6 +198,13 @@ volumes:
   postgres:
   pgadmin:
   mongodb_data_container:
+  discovery_service_data:
+  config_server_data:
+  api_gateway_data:
+  command_service_data:
+  query_service_data:
+  user_service_data:
+
+# Networks to be created to facilitate communication between containers
 networks:
-  postgres:
-    driver: bridge
+  tourist-management-network:

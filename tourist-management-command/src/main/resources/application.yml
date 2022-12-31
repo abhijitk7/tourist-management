@@ -4,7 +4,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8010/eureka
+      defaultZone: http://${EUREKA_SERVICE:localhost}:8010/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance-id:${random.value}}
 
@@ -19,12 +19,12 @@ spring:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
   data:
     mongodb:
-      host: localhost
+      host: ${MONGODB_HOST:localhost}
       port: 27017
       database: touristManagement
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: ${KAFKA_SERVER:localhost}:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
