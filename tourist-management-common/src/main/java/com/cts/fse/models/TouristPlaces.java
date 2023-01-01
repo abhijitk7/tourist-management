@@ -1,7 +1,9 @@
 package com.cts.fse.models;
 
 import com.cts.fse.domain.BaseEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import java.io.Serializable;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TouristPlaces extends BaseEntity implements Serializable {
 
     @Id
