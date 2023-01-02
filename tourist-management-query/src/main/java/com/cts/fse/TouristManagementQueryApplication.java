@@ -8,10 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.commons.util.InetUtils;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.annotation.PostConstruct;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,5 +58,22 @@ public class TouristManagementQueryApplication implements CommandLineRunner {
                                                                         new TouristPlaces(5L,"Malaysia"));
             this.touristPlacesRepository.saveAll(placesList);
         }
+    }
+
+    @Bean
+    public EurekaInstanceConfigBean eurekaInstanceConfig(InetUtils inetUtils) {
+        EurekaInstanceConfigBean config = new EurekaInstanceConfigBean(inetUtils);
+        String ip = null;
+        try {
+            ip = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Ip Address : "+ip);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        config.setIpAddress(ip);
+        config.setPreferIpAddress(true);
+        config.setNonSecurePort(8084);
+        config.setAppname("TOURIST-MANAGEMENT-QUERY");
+        return config;
     }
 }
